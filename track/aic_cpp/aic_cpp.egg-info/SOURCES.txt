@@ -1,0 +1,6 @@
+setup.py
+aic_cpp.egg-info/PKG-INFO
+aic_cpp.egg-info/SOURCES.txt
+aic_cpp.egg-info/dependency_links.txt
+aic_cpp.egg-info/top_level.txt
+src/aic.cpp

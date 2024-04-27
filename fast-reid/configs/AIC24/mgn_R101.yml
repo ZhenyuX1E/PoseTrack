@@ -1,0 +1,12 @@
+_BASE_: ../Base-MGN.yml
+
+MODEL:
+  BACKBONE:
+    DEPTH: 101x
+
+
+DATASETS:
+  NAMES: ("AIC24",)
+  TESTS: ("AIC24",)
+
+OUTPUT_DIR: logs/AIC24/mgn_R101_noIDloss

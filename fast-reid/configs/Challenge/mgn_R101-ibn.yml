@@ -1,0 +1,13 @@
+_BASE_: ../Base-MGN.yml
+
+MODEL:
+  BACKBONE:
+    DEPTH: 101x
+    WITH_IBN: True
+
+
+DATASETS:
+  NAMES: ("Challenge",)
+  TESTS: ("Challenge",)
+
+OUTPUT_DIR: logs/challenge/mgn_R101-ibn

@@ -65,9 +65,7 @@ class reid_inferencer():
         cbboxes[:,[1,3]]+=540
         cbboxes[:,[0,2]]+=960
         cbboxes=cbboxes.astype(np.float32)
-        #print(cbboxes)
-        #print(frame.dtype)
-        #print(torch.cat([torch.zeros(len(cbboxes),1),torch.from_numpy(cbboxes)],1).dtype)
+
         newcrops=roi_align(frame,torch.cat([torch.zeros(len(cbboxes),1),torch.from_numpy(cbboxes)],1),(384,128)).to(self.device)
         newfeats=(self.mgn(newcrops)+self.mgn(newcrops.flip(3))).detach().cpu().numpy()/2
 
@@ -76,17 +74,13 @@ class reid_inferencer():
     def process_frame_simplified(self,frame,bboxes):
         frame=torch.from_numpy(frame[:,:,::-1].copy()).permute(2,0,1)
         frame=frame/255.0
-        #print(frame.shape)
         
         frame.sub_(self.mean).div_(self.std)
         frame=frame.unsqueeze(0)
         cbboxes=bboxes.copy()
-        #cbboxes[:,[1,3]]+=540
-        #cbboxes[:,[0,2]]+=960
+
         cbboxes=cbboxes.astype(np.float32)
-        #print(cbboxes)
-        #print(frame.dtype)
-        #print(torch.cat([torch.zeros(len(cbboxes),1),torch.from_numpy(cbboxes)],1).dtype)
+
         newcrops=roi_align(frame,torch.cat([torch.zeros(len(cbboxes),1),torch.from_numpy(cbboxes)],1),(384,128)).to(self.device)
         newfeats=(self.mgn(newcrops)+self.mgn(newcrops.flip(3))).detach().cpu().numpy()/2
 
@@ -103,17 +97,15 @@ def main():
 
     det_root = os.path.join(root_path,"result/detection")
     vid_root = "/mnt/sdb/AIC24/test"
-    # vid_root = os.path.join(root_path,"dataset/test")
+
     save_root = os.path.join(root_path,'result/reid')
-    # save_root = "/mnt/sdc/nzl/reid"
+
     scenes = sorted(os.listdir(det_root))
     scenes = [s for s in scenes if s[0]=="s"]
     scenes = scenes[args.start:args.end]
 
     reid=torch.load('aic24_raw.pkl',map_location='cpu').cuda().eval()
-    # reid=torch.load('/mnt/sdb/xzy/ByteTrack/aic24.pkl',map_location='cpu').cuda().eval()
 
-    # reid=torch.load('/mnt/sdb/xzy/ByteTrack/model_final.pth',map_location='cpu').cuda().eval()
     reid_model = reid_inferencer(reid)
 
 
@@ -128,14 +120,6 @@ def main():
         if not os.path.exists(save_dir):
             os.mkdir(save_dir)
 
-    # det_dir = "/mnt/sdb/AIC24/test_det_trt/scene_088"
-    # vid_dir = "/mnt/sdb/AIC24/test/scene_088"
-    # cams = os.listdir(vid_dir)
-    # cams = [c for c in cams if c[0]=="c"]
-    # save_dir = "/mnt/sdb/xzy/data/reid/scene_088"
-    # if not os.path.exists(save_dir):
-    #     os.mkdir(save_dir)
-    #cams = cams[int(args.seg*len(cams)/2):int((args.seg+1)*len(cams)/2)]
         print(len(cams))
         for cam in tqdm(cams):
             print(cam)
@@ -149,30 +133,17 @@ def main():
                 all_results = np.array([])
                 np.save(save_path, all_results)
                 continue
-            #print(det_annot[0])
 
-            #cap=cv2.VideoCapture(vid_path)
             video = mmcv.VideoReader(vid_path)
-            #all_results = np.zeros((0,2048))
+
             all_results = []
             line_idx = 0
             det_len = len(det_annot)
 
             for frame_id, frame in enumerate(tqdm(video)):
-                #print(frame_id)
-                # if frame_id > 100:
-                #     break
+
                 dets = det_annot[det_annot[:,0]==frame_id]
-                # num_det=0
-                # while det_annot[line_idx,0]<frame_id:
-                #     line_idx += 1
-                # while line_idx + num_det < det_len and det_annot[line_idx + num_det,0]==frame_id:
-                #     num_det += 1
 
-                # if det_annot[line_idx,0]>frame_id:
-                #     continue
-
-                # dets = det_annot[line_idx:line_idx+num_det]
                 bboxes_s = dets[:,2:7] #x1y1x2y2s
                 #preprocess detection
                 screen_width = 1920
@@ -196,13 +167,12 @@ def main():
                 if len(bboxes_s)==0:
                     continue
                 with torch.no_grad():
-                    #feat = reid_model.process_frame(frame,bboxes_s[:,:-1]) #(b,2048)
+
                     feat_sim = reid_model.process_frame_simplified(frame,bboxes_s[:,:-1])
-                #print("error: ",np.sum(np.abs(feat_sim-feat))," ",np.sum(np.abs(feat_sim)))
-                #all_results = np.concatenate((all_results,feat_sim))
+
                 all_results.append(feat_sim)
             all_results = np.concatenate(all_results)
-                #print(all_results.shape)
+
 
             np.save(save_path, all_results)
 

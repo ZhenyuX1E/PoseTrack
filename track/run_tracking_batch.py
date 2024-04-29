@@ -70,13 +70,8 @@ def main():
     tracker = PoseTracker(cals)
     box_thred = 0.3
     results = []
-    #default_reid = np.zeros(2048)
 
     for frame_id in tqdm(range(max_frame+1),desc = scene_name):
-        # if frame_id<1720:
-        #     continue
-        # if frame_id>1780:
-        #     break
         detection_sample_mv = []
         for v in range(tracker.num_cam):
             detection_sample_sv = []
@@ -96,27 +91,20 @@ def main():
                 detection_sample_sv.append(new_sample)
             detection_sample_mv.append(detection_sample_sv)
 
-        #import pdb;pdb.set_trace();
 
         print("frame {}".format(frame_id),"det nums: ",[len(L) for L in detection_sample_mv])
 
         tracker.mv_update_wo_pred(detection_sample_mv, frame_id)
-        print(len([t for t in tracker.tracks if t.state == TrackState.Confirmed]))
+        #print(len([t for t in tracker.tracks if t.state == TrackState.Confirmed]))
 
-        
         frame_results = tracker.output(frame_id)
         results += frame_results
         
-        # if frame_id>=2000:
-        #     break
         
     results = np.concatenate(results,axis=0)
     sort_idx = np.lexsort((results[:,2],results[:,0]))
     results = np.ascontiguousarray(results[sort_idx])
     np.savetxt(save_path, results)
-    
-        # if frame_id>=0:
-        #     import pdb;pdb.set_trace();
 
 
 if __name__ == '__main__':

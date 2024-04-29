@@ -11,7 +11,7 @@ trap cleanup EXIT
 set -x
 
 for i in $(ls result/detection); do
-OMP_NUM_THREADS=1 python track/run_tracking_batch.py $i  > result/track_log1/$i.txt&
+OMP_NUM_THREADS=1 python track/run_tracking_batch.py $i  > result/track_log/$i.txt&
 done
 #
 wait

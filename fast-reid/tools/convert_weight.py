@@ -39,14 +39,7 @@ def main(args):
         model.eval()
         
         torch.save(model, '../ckpt_weight/aic24.pkl')  
-        res = DefaultTrainer.test(cfg, model)
-        return res
-
-    trainer = DefaultTrainer(cfg)
-
-    trainer.resume_or_load(resume=args.resume)
-    return trainer.train()
-
+        return None
 
 if __name__ == "__main__":
     args = default_argument_parser().parse_args()

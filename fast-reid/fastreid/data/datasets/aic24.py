@@ -3,11 +3,10 @@
 @author:  liaoxingyu
 @contact: liaoxingyu2@jd.com
 """
-
+import os
 import glob
 import os.path as osp
 import re
-import os
 
 from .bases import ImageDataset
 from ..datasets import DATASET_REGISTRY
@@ -34,23 +33,23 @@ class AIC24(ImageDataset):
     def __init__(self, root='datasets', **kwargs):
         # self.root = osp.abspath(osp.expanduser(root))
         train,query,gallery=[],[],[]
-        '''img_paths=glob.glob('/mnt/extended/randperson/images/subset/randperson_subset/randperson_subset/*.jpg')
+        current_file_path = os.path.abspath(__file__)
+        path_arr = current_file_path.split('/')[:-4]
+        root_path = '/'.join(path_arr)
+        img_paths=glob.glob(root_path+"/"+"reid_data/randperson_subset/*.jpg")
         for img_path in img_paths:
             img_name=img_path.split('/')[-1]
             infos=img_name.split('_')
             pid,camid=int(infos[0]),int(infos[2][1:])
             train.append((img_path, pid, camid))
-        img_paths=glob.glob('/root/ywj/fast-reid/datasets/Challenge/challenge_train/*.jpg')
+        img_paths=glob.glob(root_path+"/"+"reid_data/AIC23_crop/*.jpg")
         for img_path in img_paths:
             img_name=img_path.split('/')[-1]
             infos=img_name.split('_')
             pid,camid=int(infos[0]),int(infos[1][1:])
-            train.append((img_path, pid+8000, camid))'''
+            train.append((img_path, pid+8000, camid))
 
-        current_file_path = os.path.abspath(__file__)
-        path_arr = current_file_path.split('/')[:-4]
-        root_path = '/'.join(path_arr)
-        img_paths=glob.glob(root_path+"/"+"dataset/*/*.jpg")
+        img_paths=glob.glob(root_path+"/"+"reid_data/AIC24_crop/*/*.jpg")
         gallery_id=set()
         for img_path in img_paths:
             scene,img=img_path.split('/')[-2],img_path.split('/')[-1]
@@ -77,3 +76,4 @@ class AIC24(ImageDataset):
                         query.append((img_path, pid+scene*200, camid+100))
               
         super(AIC24, self).__init__(train, query, gallery, **kwargs)
+

@@ -42,6 +42,13 @@ pip3 install 'git+https://github.com/cocodataset/cocoapi.git#subdirectory=Python
 ### 2. Installation for torch2trt (Optional)
 If you want to accelerate the speed of object detection, you may install torch2trt. See [torch2trt](https://github.com/NVIDIA-AI-IOT/torch2trt).
 
+## Training
+### Train Re-ID model (skip for fast reproduction)
+```
+script/reid_train.sh
+```
+
+Download our [sampled dataset](https://drive.google.com/file/d/13OObd7baOq2NYedShAt4-ZaDBteD8MtA/view?usp=sharing) and unzip it under `fast-reid` folder.
 
 ## Inferencing
 ### 1. Prepare Pre-trained weights
@@ -69,18 +76,13 @@ script/pose_estimation.sh
 ```
 
 ### 4. Re-ID
-For the Re-ID section, we first fine-tuned on the AIC24 dataset, followed by inference. Please execute steps 4.1 and 4.2 in sequence.
-#### 4.1 Re-ID train
-```
-script/reid_train.sh
-```
 
-You can also download the weights from [ReID finetuned](https://drive.google.com/file/d/1gVu4dah6oqDmxFgwO_eyFILoqBcS1kNb/view?usp=drive_link) to skip training process. Put this finetuned weight in the `ckpt_weight` folder.
+Download the weight from [ReID model](https://drive.google.com/file/d/17qbBmBX7DiT2lOuQ6rGHl8s9deKHkVn2/view?usp=sharing). Put this finetuned weight in the `ckpt_weight` folder.
 
-#### 4.2 Re-ID inference
 ```
 script/reid_infer.sh
 ```
+
 
 ### 5. Tracking
 ```

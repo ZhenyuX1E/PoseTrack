@@ -44,11 +44,13 @@ If you want to accelerate the speed of object detection, you may install torch2t
 
 ## Training
 ### Train Re-ID model (skip for fast reproduction)
+
+Download our [sampled dataset](https://drive.google.com/file/d/13OObd7baOq2NYedShAt4-ZaDBteD8MtA/view?usp=sharing) and unzip it under `fast-reid` folder.
+
 ```
 script/reid_train.sh
 ```
 
-Download our [sampled dataset](https://drive.google.com/file/d/13OObd7baOq2NYedShAt4-ZaDBteD8MtA/view?usp=sharing) and unzip it under `fast-reid` folder.
 
 ## Inferencing
 ### 1. Prepare Pre-trained weights
@@ -58,12 +60,12 @@ Download the pretrained weights from [ByteTrack Yolox](https://drive.google.com/
 ### 2. Detection
 You can choose between the accelerated method detailed in step 2.1, which utilizes torch2trt, or the standard method described in step 2.2 if you prefer not to use it.
 
-#### 2.1 Accelerated Detection
+#### 2.1 Accelerated Detection (torch2trt)
 ```
 python ./detection/utils/trt.py
 script/fast_detection.sh
 ```
-#### 2.2 Standard Detection
+#### 2.2 Standard Detection (pytorch)
 ```
 script/standard_detection.sh
 ```

@@ -34,7 +34,7 @@ pip install -r requirements.txt
 pip install -e track/aic_cpp
 pip install openmim
 mim install "mmengine>=0.6.0"
-mim install "mmcv>=2.0.1"
+mim install "mmcv==2.0.1"
 mim install "mmpose>=1.1.0"
 pip3 install 'git+https://github.com/cocodataset/cocoapi.git#subdirectory=PythonAPI'
 ```
@@ -97,3 +97,14 @@ python3 track/generate_submission.py
 ```
 
 The final result is located in `result/track.txt`. You can compress it and upload it to the AIC24 evaluation system.
+
+
+## Acknowledgement
+
+We appreciate the following github repos a lot for their valuable code base or datasets:
+
+https://github.com/ifzhang/ByteTrack
+
+https://github.com/JDAI-CV/fast-reid
+
+https://github.com/longcw/crossview_3d_pose_tracking

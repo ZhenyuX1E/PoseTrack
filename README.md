@@ -1,10 +1,21 @@
 # CVPRW2024: A Robust Online Multi-Camera People Tracking System With Geometric Consistency and State-aware Re-ID Correction
 
-This is the official repository for the 2nd place submission to the 8th NVIDIA AI City Challenge (2024) Track 1: Multi-Camera People Tracking.
+This is the official repository for the winning submission to the 8th NVIDIA AI City Challenge (2024) Track 1: Multi-Camera People Tracking.
 
 ## Ranking 
 
+<img src="award.jpg" width="650" />
+
 <img src="ranking.png" width="650" />
+
+<img src="leadboard.jpg" width="650" />
+
+**Note:** 
+Submissions that employ online tracking will be granted a 10% bonus to their HOTA scores.
+
+- **Team79**: Utilized fully online method and thus qualified for this 10% bonus. Adjusted score becomes **77.7258**.
+- **Team221**: Leveraged an offline tracking algorithm. Adjusted score remains **71.9446**.
+
 
 ## Overall Pipeline
 

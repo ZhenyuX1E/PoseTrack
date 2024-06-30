@@ -66,7 +66,7 @@ class MixStyle(nn.Module):
 
         else:
             raise NotImplementedError
-
+ 
         mu2, sig2 = mu[perm], sig[perm]
         mu_mix = mu*lmda + mu2 * (1-lmda)
         sig_mix = sig*lmda + sig2 * (1-lmda)

@@ -28,7 +28,7 @@ for ((j=0; j < ($end-$start+1) / $scene_per_iter; j++)); do
       # 设置CUDA_VISIBLE_DEVICES环境变量以限制使用特定的GPU
       export CUDA_VISIBLE_DEVICES=$[$gpu_index]
 
-      taskset -c $[$cpu_nums_per_item*$[$i-$start]]-$[$cpu_nums_per_item*$[$i-$start]+$cpu_nums_per_item-1] python detection/get_detection.py --scene $i --trt True&
+      taskset -c $[$cpu_nums_per_item*$[$i-$start]]-$[$cpu_nums_per_item*$[$i-$start]+$cpu_nums_per_item-1] python detection/get_detection.py --scene $i --trt&
   done
   wait
 done
